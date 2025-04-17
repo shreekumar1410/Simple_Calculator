@@ -3,38 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Calculator</title>
+    <title>Enhanced Calculator</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-    <div class="calculator">
-        <div class="display">
-            <input type="text" id="result" readonly>
+<body class="light-theme">
+    <button class="theme-toggle" onclick="toggleTheme()">🌓 Toggle Theme</button>
+    
+    <div class="calculator-container">
+        <div class="history-panel" id="history">
+            <h3>History</h3>
+            <div id="history-content"></div>
+            <button onclick="clearHistory()" class="clear-history">Clear History</button>
         </div>
-        <div class="buttons">
-            <button onclick="clearDisplay()">C</button>
-            <button onclick="deleteLastChar()">⌫</button>
-            <button onclick="appendToDisplay('%')">%</button>
-            <button onclick="appendToDisplay('/')">/</button>
-            
-            <button onclick="appendToDisplay('7')">7</button>
-            <button onclick="appendToDisplay('8')">8</button>
-            <button onclick="appendToDisplay('9')">9</button>
-            <button onclick="appendToDisplay('*')">×</button>
-            
-            <button onclick="appendToDisplay('4')">4</button>
-            <button onclick="appendToDisplay('5')">5</button>
-            <button onclick="appendToDisplay('6')">6</button>
-            <button onclick="appendToDisplay('-')">-</button>
-            
-            <button onclick="appendToDisplay('1')">1</button>
-            <button onclick="appendToDisplay('2')">2</button>
-            <button onclick="appendToDisplay('3')">3</button>
-            <button onclick="appendToDisplay('+')">+</button>
-            
-            <button onclick="appendToDisplay('0')">0</button>
-            <button onclick="appendToDisplay('.')">.</button>
-            <button class="span-two" onclick="calculate()">=</button>
+        
+        <div class="calculator">
+            <div class="display">
+                <input type="text" id="result" readonly>
+                <div class="memory-indicator" id="memory-indicator">M</div>
+            </div>
+            <div class="buttons">
+                <button onclick="memoryAdd()" class="memory-btn">M+</button>
+                <button onclick="memorySubtract()" class="memory-btn">M-</button>
+                <button onclick="memoryRecall()" class="memory-btn">MR</button>
+                <button onclick="memoryClear()" class="memory-btn">MC</button>
+                
+                <button onclick="clearAll()">AC</button>
+                <button onclick="deleteLastChar()">⌫</button>
+                <button onclick="power(2)">x²</button>
+                <button onclick="appendToDisplay('/')">/</button>
+                
+                <button onclick="appendToDisplay('7')">7</button>
+                <button onclick="appendToDisplay('8')">8</button>
+                <button onclick="appendToDisplay('9')">9</button>
+                <button onclick="appendToDisplay('*')">×</button>
+                
+                <button onclick="appendToDisplay('4')">4</button>
+                <button onclick="appendToDisplay('5')">5</button>
+                <button onclick="appendToDisplay('6')">6</button>
+                <button onclick="appendToDisplay('-')">-</button>
+                
+                <button onclick="appendToDisplay('1')">1</button>
+                <button onclick="appendToDisplay('2')">2</button>
+                <button onclick="appendToDisplay('3')">3</button>
+                <button onclick="appendToDisplay('+')">+</button>
+                
+                <button onclick="squareRoot()">√</button>
+                <button onclick="appendToDisplay('0')">0</button>
+                <button onclick="appendToDisplay('.')">.</button>
+                
+                <button onclick="appendToDisplay('%')">%</button>
+                <button class="span-two equals" onclick="calculate()">=</button>
+                <button onclick="appendToDisplay('(')">(</button>
+                <button onclick="appendToDisplay(')')">)</button>
+            </div>
         </div>
     </div>
 

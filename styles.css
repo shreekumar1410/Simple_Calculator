@@ -1,33 +1,119 @@
+:root {
+    --bg-color: #f4f4f4;
+    --text-color: #333;
+    --calculator-bg: #333;
+    --button-bg: #4a4a4a;
+    --button-hover: #5a5a5a;
+    --button-active: #3a3a3a;
+    --operator-bg: #ff9500;
+    --operator-hover: #ffaa33;
+    --operator-active: #e68a00;
+    --clear-bg: #a5a5a5;
+    --clear-hover: #b5b5b5;
+    --clear-active: #959595;
+    --display-bg: #eee;
+    --history-bg: rgba(0, 0, 0, 0.7);
+    --history-text: white;
+}
+
+.dark-theme {
+    --bg-color: #222;
+    --text-color: #eee;
+    --calculator-bg: #444;
+    --button-bg: #555;
+    --button-hover: #666;
+    --button-active: #444;
+    --operator-bg: #ffaa33;
+    --operator-hover: #ffbb55;
+    --operator-active: #ff9500;
+    --clear-bg: #777;
+    --clear-hover: #888;
+    --clear-active: #666;
+    --display-bg: #555;
+    --history-bg: rgba(255, 255, 255, 0.1);
+    --history-text: #eee;
+}
+
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     margin: 0;
-    background-color: #f4f4f4;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.calculator-container {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    max-width: 900px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--button-bg);
+    border: none;
+    color: var(--text-color);
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.2s;
+    z-index: 100;
+}
+
+.theme-toggle:hover {
+    background: var(--button-hover);
+    transform: scale(1.05);
 }
 
 .calculator {
-    background-color: #333;
-    border-radius: 10px;
+    background-color: var(--calculator-bg);
+    border-radius: 15px;
     padding: 20px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    width: 300px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    width: 320px;
+    transition: all 0.3s;
 }
 
 .display {
     margin-bottom: 20px;
+    position: relative;
 }
 
 .display input {
-    width: 90%;
+    width: 100%;
     padding: 15px;
-    font-size: 24px;
+    font-size: 28px;
     text-align: right;
     border: none;
-    border-radius: 5px;
-    background-color: #eee;
+    border-radius: 8px;
+    background-color: var(--display-bg);
+    color: var(--text-color);
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.memory-indicator {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: var(--operator-bg);
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.memory-indicator.active {
+    opacity: 1;
 }
 
 .buttons {
@@ -40,59 +126,157 @@ button {
     padding: 15px;
     font-size: 18px;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
-    background-color: #4a4a4a;
+    background-color: var(--button-bg);
     color: white;
-    transition: background-color 0.2s;
+    transition: all 0.2s;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 button:hover {
-    background-color: #5a5a5a;
+    background-color: var(--button-hover);
+    transform: translateY(-2px);
 }
 
 button:active {
-    background-color: #3a3a3a;
+    background-color: var(--button-active);
+    transform: translateY(0);
 }
 
 .span-two {
     grid-column: span 2;
 }
 
+.equals {
+    background-color: var(--operator-bg);
+}
+
+.equals:hover {
+    background-color: var(--operator-hover);
+}
+
+.equals:active {
+    background-color: var(--operator-active);
+}
+
 button:nth-child(4n+4), button:last-child {
-    background-color: #ff9500;
+    background-color: var(--operator-bg);
 }
 
 button:nth-child(4n+4):hover, button:last-child:hover {
-    background-color: #ffaa33;
+    background-color: var(--operator-hover);
 }
 
 button:nth-child(4n+4):active, button:last-child:active {
-    background-color: #e68a00;
+    background-color: var(--operator-active);
 }
 
-button:first-child {
-    background-color: #a5a5a5;
+button:first-child, button:nth-child(2) {
+    background-color: var(--clear-bg);
     color: black;
 }
 
-button:first-child:hover {
-    background-color: #b5b5b5;
+button:first-child:hover, button:nth-child(2):hover {
+    background-color: var(--clear-hover);
 }
 
-button:first-child:active {
-    background-color: #959595;
+button:first-child:active, button:nth-child(2):active {
+    background-color: var(--clear-active);
 }
 
-button:nth-child(2) {
-    background-color: #a5a5a5;
-    color: black;
+.memory-btn {
+    background-color: #5d5dff;
 }
 
-button:nth-child(2):hover {
-    background-color: #b5b5b5;
+.memory-btn:hover {
+    background-color: #6e6eff;
 }
 
-button:nth-child(2):active {
-    background-color: #959595;
+.memory-btn:active {
+    background-color: #4c4cff;
+}
+
+.history-panel {
+    background-color: var(--history-bg);
+    color: var(--history-text);
+    padding: 15px;
+    border-radius: 10px;
+    width: 250px;
+    max-height: 400px;
+    overflow-y: auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.history-panel h3 {
+    margin-top: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 8px;
+}
+
+.history-item {
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.history-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.clear-history {
+    width: 100%;
+    margin-top: 10px;
+    background-color: rgba(255, 0, 0, 0.3);
+}
+
+.clear-history:hover {
+    background-color: rgba(255, 0, 0, 0.4);
+}
+
+@keyframes buttonPress {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.95); }
+    100% { transform: scale(1); }
+}
+
+.button-press {
+    animation: buttonPress 0.2s ease;
+}
+
+@keyframes errorFlash {
+    0% { background-color: var(--display-bg); }
+    50% { background-color: #ffcccc; }
+    100% { background-color: var(--display-bg); }
+}
+
+.error-flash {
+    animation: errorFlash 0.5s ease;
+}
+
+@media (max-width: 768px) {
+    .calculator-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .history-panel {
+        width: 100%;
+        max-width: 320px;
+        max-height: 150px;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 400px) {
+    .calculator {
+        width: 100%;
+        padding: 15px;
+    }
+    
+    button {
+        padding: 12px;
+        font-size: 16px;
+    }
 }
