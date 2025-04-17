@@ -1,12 +1,25 @@
 let currentInput = '';
+let lastResult = null;
+let shouldReset = false;
 
 function appendToDisplay(value) {
+    // Check if we should reset the display (after a calculation)
+    if (shouldReset && !isOperator(value) && value !== '%' && value !== '.') {
+        clearDisplay();
+        shouldReset = false;
+    }
+    
     currentInput += value;
     document.getElementById('result').value = currentInput;
 }
 
+function isOperator(value) {
+    return ['+', '-', '*', '/', '×'].includes(value);
+}
+
 function clearDisplay() {
     currentInput = '';
+    lastResult = null;
     document.getElementById('result').value = '';
 }
 
@@ -27,10 +40,14 @@ function calculate() {
         
         const result = eval(expression);
         currentInput = result.toString();
+        lastResult = result;
         document.getElementById('result').value = currentInput;
+        shouldReset = true;
     } catch (error) {
         document.getElementById('result').value = 'Error';
         currentInput = '';
+        lastResult = null;
+        shouldReset = false;
     }
 }
 
@@ -38,8 +55,15 @@ function calculate() {
 document.addEventListener('keydown', function(event) {
     const key = event.key;
     
-    if (/[0-9+\-*/.%]/.test(key)) {
+    if (/[0-9]/.test(key)) {
+        if (shouldReset) {
+            clearDisplay();
+            shouldReset = false;
+        }
         appendToDisplay(key);
+    } else if (isOperator(key) || key === '%' || key === '.') {
+        appendToDisplay(key);
+        shouldReset = false;
     } else if (key === 'Enter') {
         calculate();
     } else if (key === 'Escape') {
